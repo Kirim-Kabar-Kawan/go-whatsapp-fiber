@@ -1,5 +1,5 @@
-#FROM golang:1.16-alpine AS builder
-FROM golang:alpine
+FROM golang:1.16-alpine AS builder
+#FROM golang:alpine
 
 RUN apk update && apk add --no-cache git
 
@@ -18,7 +18,14 @@ RUN swag init
 RUN go mod tidy
 
 # Build the application server.
-RUN go build -o binary .
+# RUN go build -o binary .
+ENV CGO_ENABLED=0 GOOS=linux GOARCH=amd64
+RUN go build -ldflags="-s -w" -o apiserver .
 
+FROM scratch
+
+# Copy binary and config files from /build 
+# to root folder of scratch container.
+COPY --from=builder ["/app/apiserver", "/app/docs", "/"]
 # Command to run when starting the container.
-ENTRYPOINT ["/app/binary"]
+ENTRYPOINT ["/apiserver"]
