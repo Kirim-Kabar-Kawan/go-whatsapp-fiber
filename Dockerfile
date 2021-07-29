@@ -9,13 +9,13 @@ WORKDIR /app
 # Copy the code into the container.
 COPY . .
 
-# Download all the dependencies that are required in your source files and update go.mod file with that dependency.
-# Remove all dependencies from the go.mod file which are not required in the source files.
-RUN go mod tidy
-
 # Swag
 RUN go get -u github.com/swaggo/swag/cmd/swag
 RUN swag init
+
+# Download all the dependencies that are required in your source files and update go.mod file with that dependency.
+# Remove all dependencies from the go.mod file which are not required in the source files.
+RUN go mod tidy
 
 # Build the application server.
 RUN go build -o binary .
