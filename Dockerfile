@@ -26,6 +26,6 @@ FROM scratch
 
 # Copy binary and config files from /build 
 # to root folder of scratch container.
-COPY --from=builder ["/app/apiserver", "/app/docs", "/"]
+COPY --from=builder ["/app/apiserver", "/"]
 # Command to run when starting the container.
 ENTRYPOINT ["/apiserver"]
