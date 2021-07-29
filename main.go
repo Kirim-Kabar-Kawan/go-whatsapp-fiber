@@ -59,7 +59,7 @@ func init() {
 func main() {
 	wac, err := whatsapp.NewConnWithOptions(&whatsapp.Options{
 		// timeout
-		Timeout: 60 * time.Second,
+		Timeout: 30 * time.Second,
 		//Proxy:   proxy,
 		// set custom client name
 		ShortClientName: "Cooljar Whatsapp",

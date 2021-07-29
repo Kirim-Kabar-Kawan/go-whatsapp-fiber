@@ -2,6 +2,7 @@ FROM golang:1.16-alpine AS builder
 #FROM golang:alpine
 
 RUN apk update && apk add --no-cache git
+RUN apk --no-cache add ca-certificates
 
 # Move to working directory (/app).
 WORKDIR /app
@@ -26,6 +27,7 @@ FROM scratch
 
 # Copy binary and config files from /build 
 # to root folder of scratch container.
+COPY --from=builder ["/etc/ssl/certs/ca-certificates.crt", "/etc/ssl/certs/"]
 COPY --from=builder ["/app/apiserver", "/"]
 # Command to run when starting the container.
 ENTRYPOINT ["/apiserver"]
