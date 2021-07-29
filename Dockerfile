@@ -13,6 +13,10 @@ COPY . .
 # Remove all dependencies from the go.mod file which are not required in the source files.
 RUN go mod tidy
 
+# Swag
+RUN go get -u github.com/swaggo/swag/cmd/swag
+RUN swag init
+
 # Build the application server.
 RUN go build -o binary .
 
